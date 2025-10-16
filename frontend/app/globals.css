@@ -1,0 +1,5 @@
+/* Thư mục: frontend/app */
+/* Tên file: globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
