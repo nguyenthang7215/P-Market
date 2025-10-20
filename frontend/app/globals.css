@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: theme('colors.background'); /* <-- Set màu nền xám nhạt */
+  color: theme('colors.gray.900');
+}

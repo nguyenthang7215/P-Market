@@ -11,15 +11,15 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/products/[id]/page": [
+    "/auth/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/products/[id]/page.js"
+      "static/chunks/app/auth/layout.js"
     ],
-    "/ui-preview/page": [
+    "/auth/register/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/ui-preview/page.js"
+      "static/chunks/app/auth/register/page.js"
     ],
     "/not-found": [
       "static/chunks/webpack.js",

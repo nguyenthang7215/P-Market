@@ -1,22 +1,20 @@
-// Thư mục: frontend/app
-// Tên file: layout.jsx
-import Header from '../components/Header';
-import './globals.css'; // File này sẽ được tạo bởi Next.js khi cài đặt Tailwind
+import HomeLayout from '../home/layout'; // Dùng Header/Footer chung
+import DashboardSidebar from '../../components/layout/DashboardSidebar';
+import { Container } from '../../components/ui/Container';
 
-export const metadata = {
-  title: 'P-Market',
-  description: 'Decentralized Marketplace',
-};
-
-export default function RootLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
-    <html lang="vi">
-      <body className="bg-gray-50">
-        <Header />
-        <main>
-          {children}
-        </main>
-      </body>
-    </html>
+    // Chúng ta lồng HomeLayout (có Header/Footer)
+    // bên trong nó là một layout 2 cột (Sidebar + children)
+    <HomeLayout>
+      <Container className="py-8">
+        <div className="flex flex-col md:flex-row gap-8">
+          <DashboardSidebar />
+          <div className="flex-grow">
+            {children}
+          </div>
+        </div>
+      </Container>
+    </HomeLayout>
   );
 }
