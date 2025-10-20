@@ -6,3 +6,40 @@ body {
   background-color: theme('colors.background'); /* <-- Set màu nền xám nhạt */
   color: theme('colors.gray.900');
 }
+/* ... (code @tailwind base... của bạn ở trên) ... */
+
+/* --- CSS cho Embla Carousel --- */
+.embla {
+  overflow: hidden; /* Bắt buộc: Ẩn các slide khác */
+  border-radius: 0.5rem; /* Bo góc cho đẹp */
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+.embla__container {
+  display: flex; /* Bắt buộc: Xếp các slide nằm ngang */
+}
+.embla__slide {
+  flex: 0 0 100%; /* Bắt buộc: Mỗi slide chiếm 100% chiều rộng */
+  min-width: 0;
+  position: relative;
+}
+.embla__dots {
+  position: absolute;
+  bottom: 1rem; /* Đặt dấu chấm ở dưới đáy */
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem; /* Khoảng cách giữa các dấu chấm */
+}
+.embla__dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5); /* Màu chấm mờ */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.embla__dot--selected {
+  background-color: rgba(255, 255, 255, 1); /* Màu chấm được chọn */
+}
