@@ -1,17 +1,59 @@
+'use client'; // <-- BƯỚC 1: Chuyển thành Client Component
+
+import { useState, useEffect } from 'react'; // <-- BƯỚC 2: Import hooks
 import { Card, CardHeader, CardTitle, CardContent } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { Input } from '../../components/ui/Input'; // <-- Dòng import đã được thêm vào
+import { Input } from '../../components/ui/Input';
 import { getUserDashboard } from '../../lib/api';
-import { Shield, Gift } from 'lucide-react'; // Đảm bảo bạn đã cài 'lucide-react'
+import { Shield, Gift, BadgeCheck } from 'lucide-react';
 
-export default async function DashboardPage() {
-  // Lấy dữ liệu giả lập từ lib/api.js
-  const data = await getUserDashboard();
+// Các hàm này giờ đã nằm trong Client Component nên hợp lệ
+const handleRedeemReputation = () => {
+  alert("Đã đổi 20 Green Credit lấy 10 Điểm uy tín! (Giả lập)");
+};
+const handleRedeemBadge = () => {
+  alert("Đã đổi 10 Green Credit lấy Huy hiệu xanh! (Giả lập)");
+};
 
+export default function DashboardPage() {
+  // BƯỚC 3: Dùng state để lưu dữ liệu và trạng thái tải
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // BƯỚC 4: Dùng useEffect để fetch dữ liệu khi component được render
+  useEffect(() => {
+    async function loadData() {
+      const dashboardData = await getUserDashboard();
+      setData(dashboardData);
+      setIsLoading(false);
+    }
+    loadData();
+  }, []); // Mảng rỗng [] đảm bảo hàm này chỉ chạy 1 lần duy nhất
+
+  // BƯỚC 5: Xử lý trạng thái đang tải dữ liệu
+  if (isLoading) {
+    return (
+      <div className="text-center text-gray-500">
+        <p>Đang tải dữ liệu trang cá nhân...</p>
+      </div>
+    );
+  }
+  
+  // BƯỚC 6: Xử lý nếu không có dữ liệu
+  if (!data) {
+    return (
+      <div className="text-center text-red-500">
+        <p>Không thể tải được dữ liệu. Vui lòng thử lại sau.</p>
+      </div>
+    );
+  }
+
+  // BƯỚC 7: Trả về giao diện khi đã có dữ liệu.
+  // Code JSX này giữ nguyên, nhưng bây giờ nó đã an toàn vì nằm trong Client Component.
   return (
     <div className="space-y-6">
       
-      {/* Card 1: Tổng quan (Điểm uy tín & Green Credit) */}
+      {/* Card 1: Tổng quan */}
       <Card>
         <CardHeader>
           <CardTitle>Tổng quan</CardTitle>
@@ -34,14 +76,13 @@ export default async function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Card 2: Thưởng mời bạn bè (Flow #5) */}
+      {/* Card 2: Thưởng mời bạn bè */}
       <Card>
         <CardHeader>
           <CardTitle>Thưởng điểm mời bạn bè</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <p>Mã mời của bạn:</p>
-          {/* Component Input bây giờ đã được định nghĩa */}
           <Input type="text" value="HUU-NIEM-123" readOnly className="font-mono" />
           <Button variant="secondary">Sao chép mã</Button>
           <p className="text-xs text-gray-600">
@@ -50,29 +91,50 @@ export default async function DashboardPage() {
         </CardContent>
       </Card>
 
-      {/* Card 3: Đổi Green Credit (Flow #4) */}
+      {/* Card 3: Đổi Green Credit */}
       <Card>
         <CardHeader>
-          <CardTitle>Đổi Green Credit</CardTitle>
+          <CardTitle>Đổi thưởng Green Credit</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          
+          {/* Lựa chọn 1: Đổi điểm uy tín */}
           <div className="p-4 border rounded-md flex justify-between items-center">
-            <div>
-              <h4 className="font-semibold">Đổi 20 Green Credit</h4>
-              <p className="text-sm">Lấy <strong className="text-blue-600">10 Điểm Uy tín</strong></p>
+            <div className="flex items-center gap-3">
+              <Shield size={32} className="text-blue-500" />
+              <div>
+                <h4 className="font-semibold">Đổi điểm uy tín</h4>
+                <p className="text-sm text-gray-600">
+                  <strong className="text-green-600">20 Green Credit</strong> = <strong className="text-blue-600">10 Điểm Uy tín</strong>
+                </p>
+              </div>
             </div>
-            <Button>Đổi ngay</Button>
+            {/* Các nút này bây giờ đã hợp lệ */}
+            <Button onClick={handleRedeemReputation} disabled={data.greenCredit < 20}>
+              Đổi
+            </Button>
           </div>
+
+          {/* Lựa chọn 2: Đổi huy hiệu xanh */}
           <div className="p-4 border rounded-md flex justify-between items-center">
-            <div>
-              <h4 className="font-semibold">Đổi 10 Green Credit</h4>
-              <p className="text-sm">Lấy 1 lượt Đổi huy hiệu xanh</p>
+            <div className="flex items-center gap-3">
+              <BadgeCheck size={32} className="text-green-500" />
+              <div>
+                <h4 className="font-semibold">Đổi huy hiệu xanh</h4>
+                <p className="text-sm text-gray-600">
+                  <strong className="text-green-600">10 Green Credit</strong> = Huy hiệu (1 tuần)
+                </p>
+              </div>
             </div>
-            <Button>Đổi ngay</Button>
+            <Button onClick={handleRedeemBadge} disabled={data.greenCredit < 10}>
+              Đổi
+            </Button>
           </div>
+          
         </CardContent>
       </Card>
       
     </div>
   );
 }
+
