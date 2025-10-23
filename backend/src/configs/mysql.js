@@ -1,30 +1,29 @@
-import { Sequelize } from 'sequelize';
+import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        dialect: 'mysql',
-        logging: false // Mac dinh se hien ra cau lenh sql khi truy van, logging:false de tat no di
-    }
-);
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    name: process.env.DB_NAME,
+    waitForConnections: true,
+    connectionLimit: 15,
+    queueLimit: 0
+});
 
-const checkConnection = async () => {
+async function connectDB() {
     try {
-        await sequelize.authenticate(); // Gui 1 truy van thu (ping) den database
-        await sequelize.sync({ alter: true });
-        console.log('🎉 Kết nối ORM (Sequelize) thành công!');
+        const connection = await pool.getConnection();
+        console.log('Kết nối database Mysql thành công!');
+        connection.release();
     } catch (error) {
-        console.error('Lỗi kết nối ORM (Sequelize):', error.message);
+        console.log('Kết nối thất bại không thành công, lỗi: ', error.message);
     }
-};
+}
 
-checkConnection();
+connectDB();
 
-export default sequelize;
+export default pool;
