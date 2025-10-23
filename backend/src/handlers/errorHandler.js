@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 function errorHandler(err, req, res, next) {
-    if(err instanceof ApiError){
+    if (err instanceof ApiError) {
         res.status(err.statusCode).json({
             success: false,
             message: err.message
@@ -13,7 +13,7 @@ function errorHandler(err, req, res, next) {
 
     res.status(500).json({
         success: false,
-        message: message,
+        message: err.message,
     });
 }
 
