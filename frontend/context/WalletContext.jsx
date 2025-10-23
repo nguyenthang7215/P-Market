@@ -6,6 +6,7 @@ const WalletContext = createContext();
 
 // 2. Tạo Provider (Component quản lý)
 export function WalletProvider({ children }) {
+  // --- NGUỒN SỰ THẬT DUY NHẤT LÀ ĐÂY ---
   const [isConnected, setIsConnected] = useState(false);
   const [walletAddress, setWalletAddress] = useState('');
 
@@ -32,7 +33,7 @@ export function WalletProvider({ children }) {
   return <WalletContext.Provider value={value}>{children}</WalletContext.Provider>;
 }
 
-// 3. Tạo hook để các component khác dễ sử dụng
+// 3. Tạo hook để dễ sử dụng
 export const useWallet = () => {
   const context = useContext(WalletContext);
   if (context === undefined) {

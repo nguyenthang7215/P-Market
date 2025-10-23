@@ -23,6 +23,7 @@ export default function ConnectWalletButton({ requiredReputation }) {
     );
   }
 
+  // Nếu đã kết nối, hiển thị trạng thái
   if (isConnected) {
     return (
       <div className="p-3 bg-green-100 border border-green-300 rounded-md text-green-800">
@@ -32,6 +33,7 @@ export default function ConnectWalletButton({ requiredReputation }) {
     );
   }
 
+  // Nếu chưa, hiển thị nút để kết nối
   return (
     <Button variant="secondary" onClick={handleConnect} disabled={isLoading} className="w-full">
       <Wallet size={18} className="mr-2" />

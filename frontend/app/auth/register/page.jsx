@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { Card, CardHeader, CardContent } from '../../../components/ui/Card';
 import { Button } from '../../../components/ui/Button';
 import { Input } from '../../../components/ui/Input';
+import AuthForm from '../../../components/auth/AuthForm';
 // --- HẾT PHẦN SỬA ---
 
 export default function RegisterPage() {
@@ -38,6 +39,7 @@ export default function RegisterPage() {
   };
 
   return (
+    
     // Trang này sẽ tự động dùng layout nền xám (app/auth/layout.jsx)
     <Card className="w-full max-w-md shadow-xl">
       <CardHeader className="flex flex-col items-center justify-center text-center p-6">

@@ -1,8 +1,11 @@
 {
   "/not-found": "app/not-found.js",
-  "/home/page": "app/home/page.js",
-  "/products/new/page": "app/products/new/page.js",
-  "/products/[id]/page": "app/products/[id]/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/chat/page": "app/chat/page.js"
+  "/dashboard/reviews/page": "app/dashboard/reviews/page.js",
+  "/home/page": "app/home/page.js",
+  "/dashboard/rewards/page": "app/dashboard/rewards/page.js",
+  "/dashboard/orders/page": "app/dashboard/orders/page.js",
+  "/chat/page": "app/chat/page.js",
+  "/dashboard/orders/[id]/page": "app/dashboard/orders/[id]/page.js",
+  "/dashboard/orders/[id]/review/page": "app/dashboard/orders/[id]/review/page.js"
 }
