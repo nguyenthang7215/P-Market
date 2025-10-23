@@ -1,8 +1,0 @@
-{
-  "/not-found": "app/not-found.js",
-  "/home/page": "app/home/page.js",
-  "/products/new/page": "app/products/new/page.js",
-  "/products/[id]/page": "app/products/[id]/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/chat/page": "app/chat/page.js"
-}
