@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../configs/mysql.js';
 
-const Review = sequelize.define(
-    'Review', // Tên của model
+const TransactionLog = sequelize.define(
+    'TransactionLog', // Tên của model
     {
         // Định nghĩa các cột
         id: {
@@ -10,43 +10,42 @@ const Review = sequelize.define(
             primaryKey: true,
             autoIncrement: true,
         },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            // Mối quan hệ FOREIGN KEY (userId -> User)
+            // sẽ được định nghĩa trong file models/index.js
+        },
         orderId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             // Mối quan hệ FOREIGN KEY (orderId -> OrderProduct)
             // sẽ được định nghĩa trong file models/index.js
         },
-        reviewerId: {
-            type: DataTypes.INTEGER,
+        type: {
+            type: DataTypes.ENUM(
+                'Purchase',
+                'Fee',
+                'Release',
+                'Deposit',
+                'Withdrawal'
+            ),
             allowNull: false,
-            // Mối quan hệ FOREIGN KEY (reviewerId -> User)
-            // sẽ được định nghĩa trong file models/index.js
         },
-        reviewedUserId: {
-            type: DataTypes.INTEGER,
+        amountStablecoin: {
+            type: DataTypes.DECIMAL(18, 6),
             allowNull: false,
-            // Mối quan hệ FOREIGN KEY (reviewedUserId -> User)
-            // sẽ được định nghĩa trong file models/index.js
         },
-        rating: {
-            type: DataTypes.INTEGER,
-            // Thêm validation để khớp với CHECK constraint
-            validate: {
-                min: 1,
-                max: 5,
-            },
-        },
-        comment: {
-            type: DataTypes.TEXT,
-        },
-        reputationImpact: {
-            type: DataTypes.INTEGER,
+        txHash: {
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            unique: true,
         },
         // 'timeStamp' sẽ được Sequelize quản lý
     },
     {
         // Tùy chọn cho model
-        tableName: 'Review', // Bắt buộc tên bảng phải khớp với SQL
+        tableName: 'TransactionLog', // Bắt buộc tên bảng phải khớp với SQL
 
         // Yêu cầu Sequelize quản lý timestamps
         timestamps: true,
@@ -59,4 +58,4 @@ const Review = sequelize.define(
     }
 );
 
-export default Review;
+export default TransactionLog;

@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../configs/mysql.js';
 
-const Review = sequelize.define(
-    'Review', // Tên của model
+const GreenCreditLog = sequelize.define(
+    'GreenCreditLog', // Tên của model
     {
         // Định nghĩa các cột
         id: {
@@ -10,53 +10,47 @@ const Review = sequelize.define(
             primaryKey: true,
             autoIncrement: true,
         },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            // Mối quan hệ FOREIGN KEY (userId -> User)
+            // sẽ được định nghĩa trong file models/index.js
+        },
         orderId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             // Mối quan hệ FOREIGN KEY (orderId -> OrderProduct)
             // sẽ được định nghĩa trong file models/index.js
         },
-        reviewerId: {
+        actionType: {
+            type: DataTypes.ENUM(
+                'SoldUsed',
+                'BoughtUsed',
+                'FreeGift',
+                'UsedBoost',
+                'AdminAdjustment'
+            ),
+            allowNull: false,
+        },
+        creditAmount: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            // Mối quan hệ FOREIGN KEY (reviewerId -> User)
-            // sẽ được định nghĩa trong file models/index.js
-        },
-        reviewedUserId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            // Mối quan hệ FOREIGN KEY (reviewedUserId -> User)
-            // sẽ được định nghĩa trong file models/index.js
-        },
-        rating: {
-            type: DataTypes.INTEGER,
-            // Thêm validation để khớp với CHECK constraint
-            validate: {
-                min: 1,
-                max: 5,
-            },
-        },
-        comment: {
-            type: DataTypes.TEXT,
-        },
-        reputationImpact: {
-            type: DataTypes.INTEGER,
         },
         // 'timeStamp' sẽ được Sequelize quản lý
     },
     {
         // Tùy chọn cho model
-        tableName: 'Review', // Bắt buộc tên bảng phải khớp với SQL
-
+        tableName: 'GreenCreditLog', // Bắt buộc tên bảng phải khớp với SQL
+        
         // Yêu cầu Sequelize quản lý timestamps
         timestamps: true,
-
+        
         // Ánh xạ cột 'timeStamp' trong SQL thành 'createdAt' của Sequelize
         createdAt: 'timeStamp',
-
+        
         // Tắt cột 'updatedAt' vì SQL của bạn không có
         updatedAt: false,
     }
 );
 
-export default Review;
+export default GreenCreditLog;

@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../configs/mysql.js';
 
-const Review = sequelize.define(
-    'Review', // Tên của model
+const Chat = sequelize.define(
+    'Chat', // Tên của model
     {
         // Định nghĩa các cột
         id: {
@@ -16,37 +16,27 @@ const Review = sequelize.define(
             // Mối quan hệ FOREIGN KEY (orderId -> OrderProduct)
             // sẽ được định nghĩa trong file models/index.js
         },
-        reviewerId: {
+        senderId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            // Mối quan hệ FOREIGN KEY (reviewerId -> User)
+            // Mối quan hệ FOREIGN KEY (senderId -> User)
             // sẽ được định nghĩa trong file models/index.js
         },
-        reviewedUserId: {
+        receiverId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            // Mối quan hệ FOREIGN KEY (reviewedUserId -> User)
+            // Mối quan hệ FOREIGN KEY (receiverId -> User)
             // sẽ được định nghĩa trong file models/index.js
         },
-        rating: {
-            type: DataTypes.INTEGER,
-            // Thêm validation để khớp với CHECK constraint
-            validate: {
-                min: 1,
-                max: 5,
-            },
-        },
-        comment: {
+        message: {
             type: DataTypes.TEXT,
-        },
-        reputationImpact: {
-            type: DataTypes.INTEGER,
+            allowNull: false,
         },
         // 'timeStamp' sẽ được Sequelize quản lý
     },
     {
         // Tùy chọn cho model
-        tableName: 'Review', // Bắt buộc tên bảng phải khớp với SQL
+        tableName: 'Chat', // Bắt buộc tên bảng phải khớp với SQL
 
         // Yêu cầu Sequelize quản lý timestamps
         timestamps: true,
@@ -59,4 +49,4 @@ const Review = sequelize.define(
     }
 );
 
-export default Review;
+export default Chat;
