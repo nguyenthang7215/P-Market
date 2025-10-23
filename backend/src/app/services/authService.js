@@ -1,13 +1,18 @@
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import pool from '../../configs/mysql.js';
 import moment from 'moment';
 import * as userService from './userService'
 
 dotenv.config();
 
 export async function checkValidLogin(email, password) {
-    const user = await userService.findUserByEmail(email);
+    const [rows] = await pool.query(`
+        select * from User
+        where email = ? 
+        `, [email]);
+    const user = rows[0];
 
     if (user) {
         const verified = await bcrypt.compare(password, user.passwordHash);
@@ -25,7 +30,7 @@ export async function register({ userName, email, password }) {
 
 export function authToken(user) {
     const payload = { id: user.id };
-    const accessToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: process.env.LOGIN_EXPIRE_DAY });
+    const accessToken = jwt.sign(payload, process.env.SECRET_KEY, { expiresIn: process.env.LOGIN_EXPIRE_IN });
     const decode = jwt.decode(accessToken);
     const expireIn = decode.exp - decode.iat;
     return {
