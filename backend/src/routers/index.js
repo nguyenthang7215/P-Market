@@ -1,5 +1,5 @@
 import authRouter from './authRouter';
-import userRouter from './userRouter';
+// import userRouter from './userRouter';
 
 function route(app){
    // app.use('/users/', userRouter);
