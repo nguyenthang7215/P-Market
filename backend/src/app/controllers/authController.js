@@ -3,32 +3,30 @@ import * as authService from '../services/authService.js';
 export async function register(req, res, next) {
     const newUser = await authService.register(req.body);
 
-    const userResponse = newUser.toJson();
-    delete userResponse.passwordHash;
-
     const tokenInfo = authService.authToken(newUser);
 
     res.status(201).json({
         success: true,
         message: 'Đăng ký người dùng thành công!',
-        user: userResponse,
+        user: newUser.userName,
         token: tokenInfo,
     });
 }
 
 export async function login(req, res, next) {
     const { email, password } = req.body;
-    const user = await authService.checkValidLogin(email, password);
+    const validLogin = await authService.checkValidLogin(email, password);
 
-    const userResponse = user.toJSON();
-    delete userResponse.passwordHash;
-
-    const tokenInfo = authService.authToken(newUser);
-
-    res.status(200).json({
-        success: true,
-        message: 'Đăng nhập thành công!',
-        user: userResponse,
-        token: tokenInfo,
-    });
+    if (validLogin) {
+        const tokenInfo = authService.authToken(validLogin);
+        res.status(200).json({
+            success: true,
+            message: 'Đăng nhập thành công!',
+            user: validLogin.userName,
+            token: tokenInfo,
+        });
+    }
+    else {
+        res.status(400).json({ message: 'Email hoặc mật khẩu không đúng!' });
+    }
 }
