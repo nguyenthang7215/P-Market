@@ -3,9 +3,12 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import pool from '../../configs/mysql.js';
 import moment from 'moment';
+import NodeCache from 'node-cache';
 import * as userService from './userService'
 
 dotenv.config();
+
+export const tokenBlocklist = new NodeCache();
 
 export async function checkValidLogin(email, password) {
     const [rows] = await pool.query(`
@@ -40,4 +43,9 @@ export function authToken(user) {
     };
 }
 
-// thieu block token 
+export function blockToken(token){
+    const decode = jwt.decode(token);
+    const now = moment().unix();
+    const expireIn = decode.exp - now;
+    tokenBlocklist.set(token, true, expireIn);
+}
