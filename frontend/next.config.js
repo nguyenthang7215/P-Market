@@ -1,25 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true, // (Thêm dòng này cũng tốt)
+  reactStrictMode: true,
   images: {
+    // Cho phép tải ảnh từ tên miền này
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'placehold.co', // <-- Dòng quan trọng
-        port: '', // <-- Để trống ''
-        pathname: '/**', // <-- Dùng /**
+        hostname: 'placehold.co', 
+        port: '',
+        pathname: '/**',
       },
-      // Nếu bạn dùng ảnh từ nguồn khác, thêm vào đây
-      // Ví dụ:
-       {
-         protocol: 'https',
-         hostname: 'img.example.com',
-         port: '',
-         pathname: '/user-uploads/**',
-       },
     ],
-    // Bạn cũng có thể thêm domains (cách cũ hơn, nhưng vẫn hoạt động)
-     domains: ['placehold.co'], // Thêm dòng này để thử
+    // Cho phép hiển thị ảnh SVG từ các nguồn bên ngoài
+    dangerouslyAllowSVG: true, 
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;", // Thêm CSP để tăng bảo mật khi dùng SVG
+    // Hoặc chỉ cho phép SVG từ domain cụ thể (an toàn hơn)
+    // contentDispositionType: 'inline',
+    // dangerouslyAllowSVG: true,
+    // remotePatterns: [
+    //   {
+    //     protocol: 'https',
+    //     hostname: 'placehold.co',
+    //     pathname: '/**',
+    //   },
+    // ],
   },
 };
 
