@@ -13,5 +13,14 @@ authRouter.post(
     authController.login
 );
 
+authRouter.post(
+    '/logout',
+    authController.logout
+);
+
+authRouter.patch(
+    '/reset-password',
+    authController.resetPassword
+);
 
 export default authRouter;
