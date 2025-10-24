@@ -11,75 +11,85 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/home/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/home/page.js"
-    ],
     "/home/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/home/layout.js"
     ],
-    "/dashboard/page": [
+    "/home/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
+      "static/chunks/app/home/page.js"
     ],
     "/dashboard/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/layout.js"
     ],
-    "/dashboard/rewards/page": [
+    "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/rewards/page.js"
-    ],
-    "/dashboard/reviews/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/reviews/page.js"
-    ],
-    "/dashboard/reputation/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/reputation/page.js"
+      "static/chunks/app/dashboard/page.js"
     ],
     "/dashboard/orders/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/orders/page.js"
     ],
-    "/dashboard/orders/[id]/layout": [
+    "/dashboard/reviews/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/orders/[id]/layout.js"
+      "static/chunks/app/dashboard/reviews/page.js"
+    ],
+    "/dashboard/rewards/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/rewards/page.js"
+    ],
+    "/dashboard/reputation/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/dashboard/reputation/page.js"
     ],
     "/dashboard/orders/[id]/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/orders/[id]/page.js"
     ],
-    "/dashboard/orders/[id]/review/layout": [
+    "/dashboard/orders/[id]/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/orders/[id]/review/layout.js"
+      "static/chunks/app/dashboard/orders/[id]/layout.js"
     ],
-    "/dashboard/orders/[id]/review/page": [
+    "/products/new/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/orders/[id]/review/page.js"
+      "static/chunks/app/products/new/page.js"
     ],
-    "/chat/page": [
+    "/products/new/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/chat/page.js"
+      "static/chunks/app/products/new/layout.js"
     ],
-    "/chat/layout": [
+    "/notifications/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/chat/layout.js"
+      "static/chunks/app/notifications/page.js"
+    ],
+    "/notifications/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/notifications/layout.js"
+    ],
+    "/cart/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/cart/layout.js"
+    ],
+    "/cart/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/cart/page.js"
     ],
     "/not-found": [
       "static/chunks/webpack.js",

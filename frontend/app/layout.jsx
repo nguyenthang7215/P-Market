@@ -1,7 +1,7 @@
 import './globals.css';
 import React from 'react';
-// 1. Sửa lại tên file thành 'AuthContext'
-import { AuthProvider } from '../context/AuthContext'; 
+import { AuthProvider } from '../context/AuthContext'; // Đảm bảo đường dẫn đúng
+import { Toaster } from 'react-hot-toast';
 
 export const metadata = {
   title: 'P-Market',
@@ -11,15 +11,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
-      <body>
-        {/* 2. Bọc toàn bộ ứng dụng bằng AuthProvider */}
+      <body className="min-h-screen flex items-center justify-center bg-gray-100">
         <AuthProvider>
-          {/* --- THÊM PHẦN NÀY ĐỂ CĂN GIỮA --- */}
-          {/* div này sẽ tạo nền xám và căn giữa nội dung theo chiều dọc và ngang */}
-          <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            {children} {/* 'children' ở đây chính là trang đăng nhập của bạn */}
-          </div>
-          {/* --- HẾT PHẦN THÊM --- */}
+          {children}
+          <Toaster position="top-center" reverseOrder={false} />
         </AuthProvider>
       </body>
     </html>

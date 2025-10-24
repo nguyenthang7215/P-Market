@@ -16,11 +16,11 @@ export default function DashboardPage() {
 
   // --- State cho thông tin Profile ---
   const [profileData, setProfileData] = useState({
-    name: "Nguyễn Hữu Niêm", // Giữ nguyên tên
-    studentId: "B23DCCE076", // Mã sinh viên không cho sửa
-    class: "D23CQCN01-B",
-    phone: "0987654321",
-    address: "KTX Khu 2, PTIT HCM"
+    name: "Nguyễn Hữu Niêm",
+    studentId: "B23DCCE076",
+    class: "D23CQCN01-B", // Lớp cố định
+    phone: "0987654321", // Có thể sửa
+    address: "KTX Khu 2, PTIT HCM" // Có thể sửa
   });
 
   // Hàm cập nhật state khi người dùng gõ
@@ -66,7 +66,7 @@ export default function DashboardPage() {
           </CardTitle>
         </CardHeader>
         <form onSubmit={handleSaveProfile}>
-          <CardContent className="space-y-4 text-sm"> {/* Tăng space-y */}
+          <CardContent className="space-y-4 text-sm">
             {/* Tên (Hiển thị) */}
             <div>
               <label className="block text-xs font-medium text-gray-500 mb-1">Họ và Tên</label>
@@ -82,21 +82,15 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            {/* Lớp (Input) */}
+            {/* --- LỚP (HIỂN THỊ CỐ ĐỊNH) --- */}
             <div>
-              <label htmlFor="class" className="block text-xs font-medium text-gray-500 mb-1 flex items-center gap-1">
-                 <School size={16} /> Lớp
-              </label>
-              <Input
-                type="text"
-                id="class"
-                name="class" 
-                value={profileData.class}
-                onChange={handleProfileChange}
-                placeholder="Nhập lớp của bạn"
-                className="text-sm"
-              />
+              <label className="block text-xs font-medium text-gray-500 mb-1">Lớp</label>
+              <p className="flex items-center gap-2 text-base">
+                 <School size={16} className="text-gray-500"/>
+                 {profileData.class} 
+              </p>
             </div>
+            {/* --- HẾT PHẦN LỚP --- */}
 
             {/* Số điện thoại (Input) */}
              <div>
@@ -142,7 +136,6 @@ export default function DashboardPage() {
       
       {/* Card 1: Tổng quan (Giữ nguyên) */}
       <Card>
-         {/* ... (Code card Tổng quan giữ nguyên) ... */}
          <CardHeader>
            <CardTitle>Tổng quan</CardTitle>
          </CardHeader>
@@ -166,7 +159,6 @@ export default function DashboardPage() {
 
       {/* Card 2: Thưởng mời bạn bè (Giữ nguyên) */}
       <Card>
-        {/* ... (Code card Mời bạn bè giữ nguyên) ... */}
          <CardHeader>
            <CardTitle>Thưởng điểm mời bạn bè</CardTitle>
          </CardHeader>
@@ -182,7 +174,6 @@ export default function DashboardPage() {
 
       {/* Card 3: Đổi Green Credit (Giữ nguyên) */}
       <Card>
-        {/* ... (Code card Đổi Green Credit giữ nguyên) ... */}
          <CardHeader>
            <CardTitle>Đổi thưởng Green Credit</CardTitle>
          </CardHeader>
