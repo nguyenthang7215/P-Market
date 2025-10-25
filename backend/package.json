@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "brcypt": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "ioredis": "^5.8.2",
