@@ -6,13 +6,15 @@ export async function createUser(req, res) {
     res.status(201).json({
         success: true,
         message: 'Tạo người dùng thành công!',
-        user: newUser.userName
+        user: {
+            fullName: newUser.lastName + " " + newUser.firstName,
+            userName: newUser.userName,
+        }
     });
 }
 
 export async function resetPassword(req, res) {
-    const { id, password } = req.body;
-    await userService.resetPassword(id, password);
+    await userService.resetPassword(req.params.id, req.body.password);
 
     res.json({
         success: true,
@@ -21,7 +23,7 @@ export async function resetPassword(req, res) {
 }
 
 export async function updateProfile(req, res) {
-    await userService.updateProfile(req.params, req.body);
+    await userService.updateProfile(req.params.id, req.body);
     res.json({
         success: true,
         message: 'Cập nhật thông tin người dùng thành công!'

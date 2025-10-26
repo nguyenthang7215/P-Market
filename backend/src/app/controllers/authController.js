@@ -9,7 +9,10 @@ export async function register(req, res) {
     res.status(201).json({
         success: true,
         message: 'Đăng ký người dùng thành công!',
-        user: newUser.userName,
+        user: {
+            fullName: newUser.lastName + " " + newUser.firstName,
+            userName: newUser.userName
+        },
         token: tokenInfo,
     });
 }
