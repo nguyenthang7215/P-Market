@@ -3,16 +3,23 @@ import * as userController from '../app/controllers/userController.js';
 import * as userRequest from '../app/requests/userRequest.js';
 import validate from '../app/middleware/common/validate.js';
 import requireAuthentication from '../app/middleware/common/require-authentication.js';
-import { checkValidId } from '../app/middleware/common/valid-params.js';
+import { checkValidEmail, checkValidId, checkValidUserName } from '../app/middleware/common/valid-params.js';
+import { upload } from '../app/middleware/uploadMiddleware.js';
 
 const userRouter = Router();
 
 userRouter.use(requireAuthentication);
 
-userRouter.post(
-    '/register',
-    validate(userRequest.createUser),
-    userController.createUser
+userRouter.get(
+    '/:email',
+    checkValidEmail,
+    userController.findUserByEmail
+);
+
+userRouter.get(
+    '/:userName',
+    checkValidUserName,
+    userController.findUserByUserName
 );
 
 userRouter.patch(
@@ -23,10 +30,31 @@ userRouter.patch(
 );
 
 userRouter.put(
-    '/:id/update-profile',
+    '/:id/upload-avatar',
     checkValidId,
-    validate(userRequest.updateProfile),
-    userController.updateProfile
+    upload.single('avatar'),
+    userController.uploadAvatar
+);
+
+userRouter.patch(
+    '/:id/update-username',
+    checkValidId,
+    validate(userRequest.updateUserName),
+    userController.updateUserName
+);
+
+userRouter.patch(
+    '/:id/update-phone',
+    checkValidId,
+    validate(userRequest.updatePhone),
+    userController.updatePhone
+);
+
+userRouter.patch(
+    '/:id/update-address',
+    checkValidId,
+    validate(userRequest.updateAddress),
+    userController.updateAddress
 );
 
 export default userRouter;
