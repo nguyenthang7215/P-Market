@@ -10,9 +10,9 @@ export async function checkValidId(req, res, next) {
     }
 
     const [rows] = await pool.query(`
-            select email
-            from User
-            where id = ?
+        select email
+        from User
+        where id = ?
         `, [id]);
 
     if (rows.length > 0) {
@@ -40,6 +40,27 @@ export async function checkValidEmail(req, res, next) {
         next();
         return;
     }
-    
+
     next(ApiError.notFound('Không tồn tại người dùng'))
 }
+
+export async function checkValidUserName(req, res, next) {
+    const userName = req.params.userName;
+
+    if (!validator.matches(userName, '/^[a-zA-Z0-9_]+$/')) {
+        return next(ApiError.badRequest('UserName không hợp lệ'));
+    }
+
+    const [rows] = await pool.query(`
+        select userName 
+        from User
+        where userName = ?
+        `, [userName]);
+
+    if (rows.length > 0) {
+        next();
+        return;
+    }
+
+    next(ApiError.notFound('UserName không tồn tại'));
+} 
