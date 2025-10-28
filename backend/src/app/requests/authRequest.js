@@ -30,11 +30,11 @@ export const register = Joi.object({
         .label('Last Name'),
     userName: Joi.string()
         .trim()
-        .trim()
+        .token()
         .min(6)
         .max(255)
         .required()
-        .label('User Name'),
+        .label('UserName'),
     email: Joi.string()
         .trim()
         .min(6)
