@@ -7,6 +7,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.APP_PORT;
 
+app.use('/uploads', express.static('src/public/uploads'));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 

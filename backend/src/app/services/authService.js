@@ -26,8 +26,8 @@ export async function checkValidLogin(email, password) {
     return false;
 }
 
-export async function register({ userName, email, password }) {
-    const newUser = await userService.createUser({ userName, email, password });
+export async function register({ firstName, lastName, userName, email, password }) {
+    const newUser = await userService.createUser({ firstName, lastName, userName, email, password });
     return newUser;
 }
 
