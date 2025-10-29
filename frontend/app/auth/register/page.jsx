@@ -1,38 +1,35 @@
 'use client';
 import { useState } from 'react';
-import AuthForm from '../components/auth/AuthForm'; // Import AuthForm
-import { useAuth } from '../context/AuthContext';
-import toast from 'react-hot-toast'; // Import toast
-import { useRouter } from 'next/navigation'; // Import router for redirect
-
+import AuthForm from '../../../components/auth/AuthForm'; // <-- Đường dẫn 2 chấm
+import { useAuth } from '../../../context/AuthContext'; // <-- Đường dẫn 2 chấm
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function RegisterPage() {
-  const { register } = useAuth(); // Assuming register function in AuthContext
+  const { register } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter(); // Initialize router
+  const router = useRouter();
 
   const handleRegisterSubmit = (formData) => {
     setIsLoading(true);
-    // Simulate API call
     setTimeout(() => {
        try {
         console.log('Registering (simulated):', formData);
-        register(formData); // Call register function from context
-        toast.success('Đăng ký thành công!');
-        // Redirect handled by register function in AuthContext
+        register(formData);
+        toast.success('Đăng ký thành công! Kiểm tra email để xác thực.');
        } catch (error) {
-         console.error("Registration error (simulated):", error);
-         toast.error('Đăng ký thất bại. Vui lòng thử lại.');
-         setIsLoading(false); // Stop loading on error
+         toast.error('Đăng ký thất bại.');
+         setIsLoading(false);
        }
-    }, 1500); // 1.5 second delay
+    }, 1500);
   };
 
   return (
-    <AuthForm
-      formType="register"
-      onSubmit={handleRegisterSubmit}
-      isLoading={isLoading}
-    />
+    // Layout gốc (app/layout.jsx) sẽ xử lý căn giữa
+     <AuthForm
+       formType="register"
+       onSubmit={handleRegisterSubmit}
+       isLoading={isLoading}
+     />
   );
 }

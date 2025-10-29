@@ -44,16 +44,13 @@ export default function Header() {
   <Link href="/home" className="flex items-center gap-2">
     {/* Logo hình ảnh */}
     <Image
-      src="/PM.png"       
+      src="/logo-home.png"       
       alt="P-Market Logo"
-      width={36}
-      height={36}
+      width={150}
+      height={50}
       className="rounded-md"
     />
-    {/* Chữ P-Market */}
-    <span className="text-3xl font-extrabold text-white tracking-wide">
-      P-Market
-    </span>
+   
   </Link>
 </div>
 

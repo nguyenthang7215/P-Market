@@ -1,19 +1,18 @@
 'use client';
 import { useState } from 'react';
-import AuthForm from '../components/auth/AuthForm'; // Import AuthForm
+import AuthForm from '../components/auth/AuthForm';
 import { useAuth } from '../context/AuthContext';
-import toast from 'react-hot-toast'; // Import toast
+import toast from 'react-hot-toast';
 
 export default function LoginPage() {
-  const { login } = useAuth();
+  const { login } = useAuth(); // Assume login needs username, email, password
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLoginSubmit = (formData) => {
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    setTimeout(() => { // Simulate API call
       try {
-        login(formData.msv, formData.password);
+        login(formData.username, formData.email, formData.password);
         toast.success('Đăng nhập thành công!');
         // No need to setIsLoading(false) here because navigation happens
       } catch (error) {
@@ -25,10 +24,12 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthForm
-      formType="login"
-      onSubmit={handleLoginSubmit}
-      isLoading={isLoading}
-    />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
+       <AuthForm
+         formType="login"
+         onSubmit={handleLoginSubmit}
+         isLoading={isLoading}
+       />
+    </div>
   );
 }

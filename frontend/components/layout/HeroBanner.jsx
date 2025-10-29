@@ -8,9 +8,9 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 
 const banners = [
-  { id: 1, imageUrl: '/banner-chinh.png', alt: 'Sale lớn', link: '/sale', },
-  { id: 2, imageUrl: '/banner-mien-phi-vc.jpg', alt: 'Miễn phí vận chuyển', link: '/shipping', },
-  { id: 3, imageUrl: '/banner-green-credit.png', alt: 'Green Credit', link: '/rewards', },
+  { id: 1, imageUrl: '/banner1.png', alt: 'Sale lớn', link: '/sale', },
+  { id: 2, imageUrl: '/banner2.png', alt: 'Miễn phí vận chuyển', link: '/shipping', },
+  { id: 3, imageUrl: '/banner3.png', alt: 'Green Credit', link: '/rewards', },
 ];
 
 export default function HeroBanner() {

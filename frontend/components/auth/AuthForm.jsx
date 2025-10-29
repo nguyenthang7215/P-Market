@@ -6,122 +6,199 @@ import { Card, CardHeader, CardContent, CardFooter } from '../ui/Card';
 import { Button } from '../ui/Button';
 import { Input } from '../ui/Input';
 import toast from 'react-hot-toast';
-import { Loader2 } from 'lucide-react'; // Icon loading
+import { Loader2 } from 'lucide-react';
 
 export default function AuthForm({ formType, onSubmit, isLoading }) {
-  const [username, setUsername] = useState(''); // MSV (Login) or Email (Register)
+  // --- States ---
+  const [loginEmail, setLoginEmail] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [registerEmail, setRegisterEmail] = useState('');
+  const [registerUsername, setRegisterUsername] = useState('');
+  const [referralCode, setReferralCode] = useState('');
+  const [isExternal, setIsExternal] = useState(false);
   const [password, setPassword] = useState('');
-  const [name, setName] = useState(''); // Only for register
-  const [referralCode, setReferralCode] = useState(''); // Only for register
-  const [errors, setErrors] = useState({}); // State for validation errors
+  const [errors, setErrors] = useState({});
 
   const isRegister = formType === 'register';
   const title = isRegister ? 'Tạo tài khoản' : 'Đăng nhập';
   const submitButtonText = isRegister ? 'Đăng ký' : 'Đăng nhập';
-  const switchFormLink = isRegister ? '/' : '/register';
+  const switchFormLink = isRegister ? '/' : '/auth/register';
   const switchFormText = isRegister ? 'Đăng nhập ngay' : 'Đăng ký ngay';
   const switchFormPrompt = isRegister ? 'Đã có tài khoản?' : 'Chưa có tài khoản?';
 
-  // --- Validation Functions ---
+  // --- Validation ---
   const validatePtitEmail = (email) => /^[a-zA-Z0-9._%+-]+@(stu\.)?ptit\.edu\.vn$/.test(email);
-  const validateStudentId = (msv) => /^B\d{2}DC[A-Z]{2}\d{3}$/i.test(msv); // Example: B23DCCE076
-  const validatePassword = (pass) => pass.length >= 6; // Min 6 characters
+  const validateAnyEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  const validateUsername = (uname) => /^[a-zA-Z0-9_]{3,}$/.test(uname);
+  const validatePassword = (pass) => pass.length >= 6;
 
-  // --- Handle Submit with Validation ---
   const handleSubmit = (e) => {
     e.preventDefault();
     const newErrors = {};
 
-    // Basic required checks
-    if (!username.trim()) newErrors.username = 'Tài khoản không được để trống.';
-    if (!password.trim()) newErrors.password = 'Mật khẩu không được để trống.';
-
-    // Specific validation
     if (isRegister) {
-      if (!name.trim()) newErrors.name = 'Họ và Tên không được để trống.';
-      if (username.trim() && !validatePtitEmail(username)) newErrors.username = 'Email PTIT không hợp lệ.';
-      if (password.trim() && !validatePassword(password)) newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự.';
-    } else { // Login
-      if (username.trim() && !validateStudentId(username)) newErrors.username = 'Mã sinh viên không hợp lệ.';
+      if (!firstName.trim()) newErrors.firstName = 'Họ không được để trống.';
+      if (!lastName.trim()) newErrors.lastName = 'Tên không được để trống.';
+      if (!registerEmail.trim()) newErrors.email = 'Email không được để trống.';
+      else if (!isExternal && !validatePtitEmail(registerEmail)) newErrors.email = 'Email PTIT không hợp lệ.';
+      else if (isExternal && !validateAnyEmail(registerEmail)) newErrors.email = 'Email không hợp lệ.';
+      if (!registerUsername.trim()) newErrors.usernameReg = 'Username không được để trống.';
+      else if (!validateUsername(registerUsername)) newErrors.usernameReg = 'Username phải có ít nhất 3 ký tự (chữ, số, _).';
+      if (!password.trim()) newErrors.password = 'Mật khẩu không được để trống.';
+      else if (!validatePassword(password)) newErrors.password = 'Mật khẩu phải có ít nhất 6 ký tự.';
+    } else {
+      if (!loginEmail.trim()) newErrors.loginEmail = 'Email không được để trống.';
+      else if (!validateAnyEmail(loginEmail)) newErrors.loginEmail = 'Email không hợp lệ.';
+      if (!password.trim()) newErrors.password = 'Mật khẩu không được để trống.';
     }
 
-    setErrors(newErrors); // Update errors state
+    setErrors(newErrors);
 
-    // If no errors, call the parent onSubmit function
     if (Object.keys(newErrors).length === 0) {
-      const formData = { username, password };
-      if (isRegister) {
-        formData.name = name;
-        formData.referralCode = referralCode;
-        formData.email = username;
-      } else {
-        formData.msv = username;
-      }
+      const formData = isRegister
+        ? { firstName, lastName, email: registerEmail, password, username: registerUsername, referralCode, isExternal }
+        : { email: loginEmail, password };
+
       onSubmit(formData);
     } else {
-      toast.error('Vui lòng kiểm tra lại thông tin đã nhập.'); // General error toast
+      toast.error('Vui lòng kiểm tra lại thông tin.');
     }
   };
 
   return (
-    <Card className="w-full max-w-md shadow-xl">
-      <CardHeader className="flex flex-col items-center justify-center text-center p-6">
-        <Image src="/ptit-logo.png" alt="PTIT Logo" width={80} height={80} />
+    <Card className={`w-full ${isRegister ? 'max-w-lg' : 'max-w-md'} shadow-xl`}>
+      <CardHeader className="items-center text-center p-6">
+        <Image
+          src="/logomain.png"
+          alt="P-Market Logo"
+          width={220}
+          height={140}
+          priority
+        />
         <h2 className="text-2xl font-bold mt-4">{title}</h2>
-        <p className="text-xl text-gray-700 font-semibold">PTIT-Marketplace</p>
       </CardHeader>
 
       <form onSubmit={handleSubmit}>
         <CardContent className="p-6 space-y-4">
-          {/* Name (Register only) */}
+          {/* --- Register Fields --- */}
           {isRegister && (
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700">Họ và Tên</label>
-              <Input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} className={`mt-1 ${errors.name ? 'border-red-500' : ''}`} />
-              {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="firstName">Họ</label>
+                  <Input
+                    type="text"
+                    id="firstName"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className={`mt-1 ${errors.firstName ? 'border-red-500' : ''}`}
+                  />
+                  {errors.firstName && <p className="mt-1 text-xs text-red-600">{errors.firstName}</p>}
+                </div>
+                <div>
+                  <label htmlFor="lastName">Tên</label>
+                  <Input
+                    type="text"
+                    id="lastName"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    className={`mt-1 ${errors.lastName ? 'border-red-500' : ''}`}
+                  />
+                  {errors.lastName && <p className="mt-1 text-xs text-red-600">{errors.lastName}</p>}
+                </div>
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  id="isExternal"
+                  name="isExternal"
+                  type="checkbox"
+                  checked={isExternal}
+                  onChange={(e) => setIsExternal(e.target.checked)}
+                  className="h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary"
+                />
+                <label htmlFor="isExternal" className="ml-2 block text-sm text-gray-900">
+                  Đăng ký với tư cách người ngoài PTIT?
+                </label>
+              </div>
+
+              <div>
+                <label htmlFor="email">Email {isExternal ? '' : '(PTIT)'}</label>
+                <Input
+                  type="email"
+                  id="email"
+                  value={registerEmail}
+                  onChange={(e) => setRegisterEmail(e.target.value)}
+                  placeholder={isExternal ? 'Nhập email của bạn' : 'your.msv@stu.ptit.edu.vn'}
+                  className={`mt-1 ${errors.email ? 'border-red-500' : ''}`}
+                />
+                {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
+              </div>
+
+              <div>
+                <label htmlFor="usernameReg">Username</label>
+                <Input
+                  type="text"
+                  id="usernameReg"
+                  value={registerUsername}
+                  onChange={(e) => setRegisterUsername(e.target.value)}
+                  placeholder="Tên đăng nhập (ít nhất 3 ký tự)"
+                  className={`mt-1 ${errors.usernameReg ? 'border-red-500' : ''}`}
+                />
+                {errors.usernameReg && <p className="mt-1 text-xs text-red-600">{errors.usernameReg}</p>}
+              </div>
+            </>
           )}
-          {/* Username/Email */}
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700">{isRegister ? 'Email (PTIT)' : 'Tài khoản (Mã sinh viên)'}</label>
-            <Input
-              type={isRegister ? 'email' : 'text'} id="username" name="username"
-              placeholder={isRegister ? "your.msv@stu.ptit.edu.vn" : "Nhập mã số sinh viên..."}
-              className={`mt-1 ${errors.username ? 'border-red-500' : ''}`}
-              style={{ borderLeft: !isRegister ? '4px solid #CC0000' : '' }}
-              value={username} onChange={(e) => setUsername(e.target.value)}
-            />
-            {errors.username && <p className="mt-1 text-xs text-red-600">{errors.username}</p>}
-          </div>
-          {/* Password */}
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Mật khẩu</label>
-            <Input type="password" id="password" name="password" placeholder="********"
-              className={`mt-1 ${errors.password ? 'border-red-500' : ''}`}
-              value={password} onChange={(e) => setPassword(e.target.value)}
-            />
-             {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
-          </div>
-          {/* Referral Code (Register only) */}
-          {isRegister && (
-            <div>
-              <label htmlFor="referral" className="block text-sm font-medium text-gray-700">Mã giới thiệu (Nếu có)</label>
-              <Input type="text" id="referral" value={referralCode} onChange={(e) => setReferralCode(e.target.value)} className="mt-1" placeholder="Nhập mã của bạn bè" />
-            </div>
-          )}
-          {/* Remember Me / Forgot Password (Login only) */}
+
+          {/* --- Login Fields (Chỉ Email) --- */}
           {!isRegister && (
-             <div className="flex items-center justify-between">
+            <>
+              <div>
+                <label htmlFor="loginEmail">Email</label>
+                <Input
+                  type="email"
+                  id="loginEmail"
+                  name="loginEmail"
+                  placeholder="Nhập email PTIT của bạn"
+                  className={`mt-1 ${errors.loginEmail ? 'border-red-500' : ''}`}
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                />
+                {errors.loginEmail && <p className="mt-1 text-xs text-red-600">{errors.loginEmail}</p>}
+              </div>
+            </>
+          )}
+
+          {/* --- Password Field --- */}
+          <div>
+            <label htmlFor="password">Mật khẩu</label>
+            <Input
+              type="password"
+              id="password"
+              name="password"
+              placeholder={isRegister ? 'Ít nhất 6 ký tự' : '********'}
+              className={`mt-1 ${errors.password ? 'border-red-500' : ''}`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password}</p>}
+          </div>
+
+          {!isRegister && (
+            <div className="flex items-center justify-between mt-4">
               <div className="flex items-center">
                 <input id="remember-me" name="remember-me" type="checkbox" className="h-4 w-4 text-primary rounded border-gray-300 focus:ring-primary"/>
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Ghi nhớ</label>
               </div>
               <div className="text-sm">
-                <Link href="#" className="font-medium text-primary hover:text-primary-hover">Quên mật khẩu?</Link>
+                <Link href="/forgot-password" className="font-medium text-primary hover:text-primary-hover">
+  Quên mật khẩu?
+</Link>
+
               </div>
             </div>
           )}
-          {/* Removed general error display here */}
         </CardContent>
 
         <CardFooter className="flex flex-col gap-4 px-6 pb-6">
@@ -129,10 +206,15 @@ export default function AuthForm({ formType, onSubmit, isLoading }) {
             {isLoading ? <Loader2 className="animate-spin mr-2" size={18} /> : null}
             {isLoading ? 'Đang xử lý...' : submitButtonText}
           </Button>
-          {/* Or login with */}
-          <div className="relative my-2"><div className="absolute inset-0 flex items-center"><span className="w-full border-t"></span></div><div className="relative flex justify-center text-sm"><span className="px-2 bg-white text-gray-500">Hoặc đăng nhập với</span></div></div>
-          <Button type="button" className="w-full" variant="secondary">PTIT Microsoft Office 365</Button>
-          {/* Switch form link */}
+          {!isRegister && (
+            <>
+              <div className="relative my-2">
+                <div className="absolute inset-0 flex items-center"><span className="w-full border-t"></span></div>
+                <div className="relative flex justify-center text-sm"><span className="px-2 bg-white text-gray-500">Hoặc đăng nhập với</span></div>
+              </div>
+              <Button type="button" className="w-full" variant="secondary">PTIT Microsoft Office 365</Button>
+            </>
+          )}
           <p className="mt-4 text-center text-sm text-gray-600">
             {switchFormPrompt}{' '}
             <Link href={switchFormLink} className="font-medium text-primary hover:text-primary-hover">{switchFormText}</Link>

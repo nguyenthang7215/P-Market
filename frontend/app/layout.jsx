@@ -1,7 +1,7 @@
 import './globals.css';
 import React from 'react';
 import { AuthProvider } from '../context/AuthContext'; // Đảm bảo đường dẫn đúng
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast'; // <-- 1. Import Toaster
 
 export const metadata = {
   title: 'P-Market',
@@ -11,9 +11,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="vi">
-      <body className="min-h-screen flex items-center justify-center bg-gray-100">
+      <body>
         <AuthProvider>
+          {/* Layout này KHÔNG căn giữa */}
           {children}
+          {/* 2. Thêm Toaster ở đây */}
           <Toaster position="top-center" reverseOrder={false} />
         </AuthProvider>
       </body>
